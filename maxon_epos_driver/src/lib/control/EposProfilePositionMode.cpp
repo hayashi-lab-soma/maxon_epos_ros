@@ -58,12 +58,8 @@ void EposProfilePositionMode::read()
 void EposProfilePositionMode::write(const double position, const double velocity, const double current)
 {
     //change maximum velocity profile
-<<<<<<< HEAD
     unsigned int rpm = (unsigned int)(velocity);
     ROS_INFO("Max RPM:%d",rpm);
-=======
-    unsigned int rpm = static_cast<unsigned int>(velocity);
->>>>>>> master
     unsigned int accel = 8000;
     unsigned int decel = 8000;
     ROS_DEBUG_STREAM("Change profile: ");
