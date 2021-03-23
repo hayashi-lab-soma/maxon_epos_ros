@@ -49,6 +49,20 @@ void EposProfilePositionMode::read()
 
 void EposProfilePositionMode::write(const double position, const double velocity, const double current)
 {
+    //change maximum velocity profile
+    unsigned int rpm = (unsigned int)(velocity);
+    ROS_INFO("Max RPM:%d",rpm);
+    unsigned int accel = 8000;
+    unsigned int decel = 8000;
+    ROS_DEBUG_STREAM("Change profile: ");
+    VCS_NODE_COMMAND(SetPositionProfile,
+                     m_epos_handle, 
+                     rpm, 
+                     accel, 
+                     decel);
+                    //  ProfileAcceleration,
+                    //  ProfileDeceleration);
+
     int quad_count;
     ROS_DEBUG_STREAM("Target Position: " << position);
     ROS_DEBUG_STREAM("Encoder Resolution: " << m_max_qc);
