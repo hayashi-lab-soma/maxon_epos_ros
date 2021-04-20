@@ -22,7 +22,7 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    ros::Rate sleep_rate(2);
+    ros::Rate sleep_rate(3);
     EposManager manager;
     if (!manager.init(nh, private_nh, motor_names))
     {
