@@ -25,6 +25,7 @@ public:
 private:
     int m_max_qc;
     double m_position_cmd;
+    long m_velocity_cmd;
 };
 
 #endif // _EposProfilePositionMode_HPP

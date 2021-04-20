@@ -45,8 +45,8 @@ bool EposManager::init(ros::NodeHandle &root_nh, ros::NodeHandle &motors_nh,
         m_motors.push_back(motor);
     }
 
-    m_all_motor_publisher = motors_nh.advertise<maxon_epos_msgs::MotorStates>("get_all_states", 100);
-    m_all_motor_subscriber = motors_nh.subscribe("set_all_states", 100, &EposManager::write, this);
+    m_all_motor_publisher = motors_nh.advertise<maxon_epos_msgs::MotorStates>("get_all_states", 3);
+    m_all_motor_subscriber = motors_nh.subscribe("set_all_states", 3, &EposManager::write, this);
     return true;
 }
 

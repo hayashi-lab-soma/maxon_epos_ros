@@ -52,8 +52,8 @@ void EposMotor::init(ros::NodeHandle &root_nh, ros::NodeHandle &motor_nh, const 
 
     VCS_NODE_COMMAND_NO_ARGS(SetEnableState, m_epos_handle);
 
-    m_state_publisher = motor_nh.advertise<maxon_epos_msgs::MotorState>("get_state", 100);
-    m_state_subscriber = motor_nh.subscribe("set_state", 100, &EposMotor::writeCallback, this);
+    m_state_publisher = motor_nh.advertise<maxon_epos_msgs::MotorState>("get_state", 3);
+    m_state_subscriber = motor_nh.subscribe("set_state", 3, &EposMotor::writeCallback, this);
 }
 
 maxon_epos_msgs::MotorState EposMotor::read()

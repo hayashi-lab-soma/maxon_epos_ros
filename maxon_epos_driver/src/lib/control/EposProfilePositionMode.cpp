@@ -9,6 +9,8 @@
 
 EposProfilePositionMode::~EposProfilePositionMode()
 {
+    m_position_cmd = 0.0; //initialize
+    m_velocity_cmd = 0;
 }
 
 void EposProfilePositionMode::init(ros::NodeHandle &motor_nh, NodeHandle &node_handle)
@@ -59,17 +61,33 @@ void EposProfilePositionMode::write(const double position, const double velocity
 {
     //change maximum velocity profile
     unsigned int rpm = (unsigned int)(velocity);
-    // ROS_INFO("Max RPM:%d",rpm);
-    unsigned int accel = 8000;
-    unsigned int decel = 8000;
-    ROS_DEBUG_STREAM("Change profile: ");
-    VCS_NODE_COMMAND(SetPositionProfile,
-                     m_epos_handle, 
-                     rpm, 
-                     accel, 
-                     decel);
-                    //  ProfileAcceleration,
-                    //  ProfileDeceleration);
+    if(m_velocity_cmd == rpm){
+        // ROS_DEBUG_STREAM("Skip same position control");
+        // return;
+    }
+    else{
+        m_velocity_cmd = rpm; //copy to local variable  
+            // ROS_INFO("Max RPM:%d",rpm);
+        unsigned int accel = 8000;
+        unsigned int decel = 8000;
+
+        ROS_DEBUG_STREAM("Change profile: ");
+        VCS_NODE_COMMAND(SetPositionProfile,
+                        m_epos_handle, 
+                        rpm, 
+                        accel, 
+                        decel);
+    }
+
+
+    if((m_position_cmd - 0.03) <= position
+    && position <= (m_position_cmd + 0.03)){
+        // ROS_DEBUG_STREAM("Skip same position control");
+        return;
+    }
+    else{
+    m_position_cmd = position; //copy to local variable  
+    }
 
     int quad_count;
     ROS_DEBUG_STREAM("Target Position: " << position);
